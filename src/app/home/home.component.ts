@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 
 import {Observable, Subscription} from "rxjs";
-import {map} from "rxjs/operators";
+import {map, filter} from "rxjs/operators";
 
 @Component({
   selector: 'app-home',
@@ -31,7 +31,9 @@ export class HomeComponent implements OnInit {
       }, 1000)
     }));
 
-    this.sub = obs.pipe(map((data) => 'Round: ' + (data as number + 1))).subscribe(
+    this.sub = obs.pipe(
+      filter(data => (data as number) > 0),
+      map((data) => 'Round: ' + (data as number))).subscribe(
       {
         next: data => console.log(data),
         error: error => console.log(error.message),
