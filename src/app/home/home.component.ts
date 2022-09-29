@@ -18,6 +18,10 @@ export class HomeComponent implements OnInit {
       let count = 0;
       setInterval(() => {
         observer.next(count);
+        if(count > 2) {
+          observer.complete()
+        }
+
         if (count > 3) {
           observer.error(new Error("count > 3"));
         }
@@ -28,7 +32,8 @@ export class HomeComponent implements OnInit {
     this.sub = obs.subscribe(
       {
         next: data => console.log(data),
-        error: error => console.log(error.message)
+        error: error => console.log(error.message),
+        complete: () => console.log('completed')
       })
   }
 
