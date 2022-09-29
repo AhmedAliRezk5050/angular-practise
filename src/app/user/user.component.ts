@@ -20,6 +20,6 @@ export class UserComponent implements OnInit {
   }
 
   activateBtnClicked() {
-    this.userService.userEventEmitter.emit(true)
+    this.userService.userEventEmitter.next(true)
   }
 }
