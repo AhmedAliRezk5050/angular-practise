@@ -18,11 +18,18 @@ export class HomeComponent implements OnInit {
       let count = 0;
       setInterval(() => {
         observer.next(count);
+        if (count > 3) {
+          observer.error(new Error("count > 3"));
+        }
         count++;
       }, 1000)
     }));
 
-    this.sub = obs.subscribe(data => console.log(data))
+    this.sub = obs.subscribe(
+      {
+        next: data => console.log(data),
+        error: error => console.log(error.message)
+      })
   }
 
   ngOnDestroy(): void {
