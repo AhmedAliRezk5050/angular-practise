@@ -23,6 +23,7 @@
               class="form-control"
               name="email"
               ngModel
+              required
               email
             >
           </div>
@@ -31,13 +32,14 @@
           <label for="secret">Secret Questions</label>
           <select id="secret" class="form-control"
                   name="secret"
+                  required
                   ngModel
           >
             <option value="pet">Your first Pet?</option>
             <option value="teacher">Your first teacher?</option>
           </select>
         </div>
-        <button class="btn btn-primary" type="submit">Submit</button>
+        <button class="btn btn-primary" type="submit" [disabled]="f.invalid">Submit</button>
       </form>
     </div>
   </div>
