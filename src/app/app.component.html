@@ -53,6 +53,10 @@
             Please choose a Secret Question.
           </div>
         </div>
+        <div class="">
+          <textarea name="reply" cols="30" rows="10" class="form-control" [(ngModel)]="answer"></textarea>
+          <p>{{answer}}</p>
+        </div>
         <button class="btn btn-primary" type="submit" [disabled]="f.invalid">Submit</button>
       </form>
     </div>
