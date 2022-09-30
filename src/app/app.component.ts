@@ -8,6 +8,8 @@ import {NgForm} from "@angular/forms";
 })
 export class AppComponent {
 
+  genders = ['male', 'female']
+
   @ViewChild('f') form?: NgForm
 
   answer = '';
