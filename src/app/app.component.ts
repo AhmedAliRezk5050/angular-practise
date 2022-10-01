@@ -1,12 +1,21 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormArray, FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {
+  AbstractControl,
+  AsyncValidatorFn,
+  FormArray,
+  FormControl,
+  FormGroup,
+  NgForm,
+  ValidationErrors, ValidatorFn,
+  Validators
+} from "@angular/forms";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   genders = ['male', 'female']
   forbiddenNames = ['ahmed', 'Ali']
 
@@ -16,7 +25,7 @@ export class AppComponent implements OnInit{
     this.userForm = new FormGroup({
       'userData': new FormGroup({
         'username': new FormControl(null, [Validators.required, this.forbiddenUsernamesValidator]),
-        'email': new FormControl(null, [Validators.required, Validators.email]),
+        'email': new FormControl(null, [Validators.required, Validators.email], this.forbiddenEmailsAsyncValidator),
       }),
       'gender': new FormControl('male', Validators.required),
       'age': new FormControl(null, Validators.required),
@@ -26,6 +35,7 @@ export class AppComponent implements OnInit{
 
   onSubmit() {
     console.log(this.userForm);
+
   }
 
   onAddFormControl() {
@@ -37,11 +47,23 @@ export class AppComponent implements OnInit{
     return (this.userForm.get('hobbies') as FormArray)
   }
 
-  forbiddenUsernamesValidator = (control: FormControl): {[s:string]: true} | null  => {
-    if(this.forbiddenNames.indexOf(control.value) !== -1) {
+  forbiddenUsernamesValidator: ValidatorFn = (control: AbstractControl) => {
+    if (this.forbiddenNames.indexOf(control.value) !== -1) {
       return {nameIsForbidden: true};
     }
     return null;
+  }
+
+  forbiddenEmailsAsyncValidator: AsyncValidatorFn = (control: AbstractControl) => {
+    return new Promise<ValidationErrors | null>((res, rej) => {
+      setTimeout(() => {
+        if (control.value !== 'test@test.com') {
+          res({emailIsForbidden: true});
+        } else {
+          res(null);
+        }
+      }, 3000);
+    });
   }
 
   get formControls() {

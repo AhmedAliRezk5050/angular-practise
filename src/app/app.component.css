@@ -9,3 +9,15 @@ input.ng-invalid.ng-touched, select.ng-invalid.ng-touched {
 .error-message {
   color: red;
 }
+
+input.ng-pending {
+  border: 1px solid orange;
+}
+
+.pending {
+  color: orange;
+}
+
+input.ng-valid {
+  border: 1px solid green;
+}

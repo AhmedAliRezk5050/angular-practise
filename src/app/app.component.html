@@ -35,7 +35,9 @@
                  *ngIf="userData.get('email')?.invalid && userData.get('email')?.touched">
               <span *ngIf="userForm.hasError('required', 'userData.email')">The field is required</span>
               <span *ngIf="userForm.hasError('email', 'userData.email')">invalid email</span>
+              <span *ngIf="userForm.hasError('emailIsForbidden', 'userData.email')">forbidden email</span>
             </div>
+            <div class="pending" *ngIf="userData.get('email')?.pending">checking...</div>
           </div>
         </div>
 
