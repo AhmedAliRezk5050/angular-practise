@@ -13,8 +13,14 @@
               formControlName="username"
             >
             <div class="error-message"
-                 *ngIf="userForm.get('userData.username')!.invalid && userForm.get('userData.username')!.touched">
-              Enter username</div>
+                 *ngIf="userData.get('username')?.invalid && userData.get('username')?.touched">
+                <span *ngIf="userForm.hasError('required', 'userData.username')">
+                  The field is required
+                </span>
+              <span *ngIf="userForm.hasError('nameIsForbidden', 'userData.username')">
+                  Invalid username
+                </span>
+            </div>
           </div>
           <div class="form-group">
             <label for="email">Mail</label>
@@ -26,8 +32,10 @@
               formControlName="email"
             >
             <div class="error-message"
-                 *ngIf="userForm.get('userData.email')!.invalid && userForm.get('userData.email')!.touched">
-              Enter email</div>
+                 *ngIf="userData.get('email')?.invalid && userData.get('email')?.touched">
+              <span *ngIf="userForm.hasError('required', 'userData.email')">The field is required</span>
+              <span *ngIf="userForm.hasError('email', 'userData.email')">invalid email</span>
+            </div>
           </div>
         </div>
 
@@ -38,8 +46,17 @@
               {{gender}}
             </label>
             <div class="error-message"
-                 *ngIf="userForm.get('gender')!.invalid && userForm.get('gender')!.touched">
-              Enter gender</div>
+                 *ngIf="userForm.get('gender')?.invalid && userForm.get('gender')?.touched">
+              Enter gender
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label>Age</label>
+          <input type="text" class="form-control" formControlName="age">
+          <div class="error-message" *ngIf="formControls['age']?.invalid && formControls['age']?.touched">
+            The field is required
           </div>
         </div>
 

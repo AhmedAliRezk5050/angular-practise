@@ -19,6 +19,7 @@ export class AppComponent implements OnInit{
         'email': new FormControl(null, [Validators.required, Validators.email]),
       }),
       'gender': new FormControl('male', Validators.required),
+      'age': new FormControl(null, Validators.required),
       'hobbies': new FormArray([])
     })
   }
@@ -43,5 +44,12 @@ export class AppComponent implements OnInit{
     return null;
   }
 
+  get formControls() {
+    return this.userForm.controls
+  }
+
+  get userData() {
+    return this.formControls['userData'] as FormGroup
+  }
 }
 
