@@ -42,6 +42,7 @@ export class AppComponent {
   onSubmit() {
     this.submitted = true;
     this.user = this.userForm?.value
+    this.userForm?.reset();
   }
 }
 
