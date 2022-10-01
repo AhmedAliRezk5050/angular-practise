@@ -11,21 +11,48 @@ export class AppComponent {
 
   genders = ['male', 'female']
 
-
   answer = '';
 
   defaultQuestion = "teacher"
 
+  user?:FormData
+
+  submitted = false
+
   suggestUserName() {
     const suggestedName = 'Superuser';
+    /// resets other form value
+    // this.userForm?.setValue({
+    //   "userData": {
+    //     "username": suggestedName,
+    //     "email": ""
+    //   },
+    //   "secret": "",
+    //   "reply": "",
+    //   "gender": ""
+    // });
+
     this.userForm?.form.patchValue({
       userData: {
         username: suggestedName
       }
-    })
+    });
   }
 
   onSubmit() {
-    console.log(this.userForm)
+    this.submitted = true;
+    this.user = this.userForm?.value
   }
+}
+
+interface UserData {
+  username: string;
+  email: string;
+}
+
+interface FormData {
+  userData: UserData;
+  secret: string;
+  reply: string;
+  gender: string;
 }
