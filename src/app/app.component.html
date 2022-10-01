@@ -43,6 +43,15 @@
           </div>
         </div>
 
+        <div class="m-3" formArrayName="hobbies">
+          <h3>Hobbies</h3>
+          <button class="btn btn-success" type="button" (click)="onAddFormControl()">Add Hobby</button>
+          <div class="mb-2"
+               *ngFor="let fc of hobbiesFormArray.controls; let i = index">
+            <input type="text" class="form-control" [formControlName]="i">
+          </div>
+        </div>
+
         <button class="btn btn-primary" type="submit">Submit</button>
       </form>
     </div>
