@@ -1,80 +1,42 @@
-import {Component, OnInit} from '@angular/core';
-import {
-  AbstractControl,
-  AsyncValidatorFn,
-  FormArray,
-  FormControl,
-  FormGroup,
-  NgForm,
-  ValidationErrors, ValidatorFn,
-  Validators
-} from "@angular/forms";
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
-  genders = ['male', 'female']
-  forbiddenNames = ['ahmed', 'Ali']
-
-  userForm!: FormGroup
-
-  ngOnInit(): void {
-    this.userForm = new FormGroup({
-      'userData': new FormGroup({
-        'username': new FormControl(null, [Validators.required, this.forbiddenUsernamesValidator]),
-        'email': new FormControl(null, [Validators.required, Validators.email], this.forbiddenEmailsAsyncValidator),
-      }),
-      'gender': new FormControl('male', Validators.required),
-      'age': new FormControl(null, Validators.required),
-      'hobbies': new FormArray([])
-    });
-
-    this.userForm.statusChanges.subscribe(status => console.log(status));
-    this.userForm.valueChanges.subscribe(value => console.log(value));
-  }
-
-  onSubmit() {
-    console.log(this.userForm);
-
-  }
-
-  onAddFormControl() {
-    const control = new FormControl(null, Validators.required);
-    (this.userForm.get('hobbies') as FormArray).push(control);
-  }
-
-  get hobbiesFormArray() {
-    return (this.userForm.get('hobbies') as FormArray)
-  }
-
-  forbiddenUsernamesValidator: ValidatorFn = (control: AbstractControl) => {
-    if (this.forbiddenNames.indexOf(control.value) !== -1) {
-      return {nameIsForbidden: true};
+export class AppComponent {
+  servers = [
+    {
+      instanceType: 'medium',
+      name: 'Production Server',
+      status: 'stable',
+      started: new Date(15, 1, 2017)
+    },
+    {
+      instanceType: 'large',
+      name: 'User Database',
+      status: 'stable',
+      started: new Date(15, 1, 2017)
+    },
+    {
+      instanceType: 'small',
+      name: 'Development Server',
+      status: 'offline',
+      started: new Date(15, 1, 2017)
+    },
+    {
+      instanceType: 'small',
+      name: 'Testing Environment Server',
+      status: 'stable',
+      started: new Date(15, 1, 2017)
     }
-    return null;
-  }
-
-  forbiddenEmailsAsyncValidator: AsyncValidatorFn = (control: AbstractControl) => {
-    return new Promise<ValidationErrors | null>((res, rej) => {
-      setTimeout(() => {
-        if (control.value !== 'test@test.com') {
-          res({emailIsForbidden: true});
-        } else {
-          res(null);
-        }
-      }, 3000);
-    });
-  }
-
-  get formControls() {
-    return this.userForm.controls
-  }
-
-  get userData() {
-    return this.formControls['userData'] as FormGroup
+  ];
+  getStatusClasses(server: {instanceType: string, name: string, status: string, started: Date}) {
+    return {
+      'list-group-item-success': server.status === 'stable',
+      'list-group-item-warning': server.status === 'offline',
+      'list-group-item-danger': server.status === 'critical'
+    };
   }
 }
-
