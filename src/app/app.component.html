@@ -4,8 +4,11 @@
       <div class="m-3">
         <input type="text" [(ngModel)]="filterValue">
       </div>
-      <ul class="list-group">
+      <div class="m-3">
+        <button class="btn btn-success" (click)="onAddServer()">Add Server</button>
+      </div>
 
+      <ul class="list-group">
         <li
           class="list-group-item"
           *ngFor="let server of servers | filter:'status':filterValue"
