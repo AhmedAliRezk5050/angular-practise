@@ -59,8 +59,9 @@
         </li>
       </ul>
       <p *ngIf="isFetching && !fetchingError">Loading...</p>
-      <p *ngIf="isLoading">Loading...</p>
+      <p *ngIf="isLoading && !error">Loading...</p>
       <div class="alert alert-danger" *ngIf="fetchingError">{{fetchingError}}</div>
+      <div class="alert alert-danger" *ngIf="error">{{error}}</div>
     </div>
   </div>
 </div>

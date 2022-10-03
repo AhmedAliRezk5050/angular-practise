@@ -2,11 +2,14 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {PartialPost, Post} from "./post.module";
 import {map} from "rxjs/operators";
+import {Subject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export default class PostsService {
+
+  errorObs = new Subject<string | null>()
 
   private url = 'https://angular-practise-caf1f-default-rtdb.firebaseio.com/posts.json'
 
@@ -15,7 +18,13 @@ export default class PostsService {
 
   createPost(title: string, content: string) {
     this.http.post<{name : string}>(this.url, {title, content})
-      .subscribe(res => console.log(res))
+      .subscribe({
+        next: res => {
+          this.errorObs.next(null);
+          console.log(res)
+        },
+        error: err => this.errorObs.next(err.message)
+      })
   }
 
   fetchPosts() {

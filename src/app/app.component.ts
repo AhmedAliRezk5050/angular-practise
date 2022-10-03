@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {PartialPost, Post} from "./post.module";
 import PostsService from "./posts.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -15,13 +16,15 @@ export class AppComponent implements OnInit {
   isFetching = false;
   isLoading = false;
   fetchingError: string | null = null;
-
+  error: string | null = null;
+  errorObsSubscription?: Subscription;
 
   constructor(private postsService: PostsService) {
   }
 
   ngOnInit() {
     this.onFetchPosts()
+    this.errorObsSubscription = this.postsService.errorObs.subscribe(m => this.error = m);
   }
 
   onCreatePost(postData: { title: string; content: string }) {
