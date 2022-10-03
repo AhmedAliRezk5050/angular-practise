@@ -9,13 +9,16 @@ import { HttpClient } from '@angular/common/http';
 export class AppComponent implements OnInit {
   loadedPosts = [];
 
+  private url = 'https://angular-practise-caf1f-default-rtdb.firebaseio.com/posts.json'
+
   constructor(private http: HttpClient) {}
 
   ngOnInit() {}
 
   onCreatePost(postData: { title: string; content: string }) {
     // Send Http request
-    console.log(postData);
+    this.http.post(this.url, postData)
+      .subscribe(res => console.log(res))
   }
 
   onFetchPosts() {
