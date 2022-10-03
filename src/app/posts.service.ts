@@ -30,4 +30,8 @@ export default class PostsService {
         return posts;
       }))
   }
+
+  deletePosts() {
+    return this.http.delete(this.url)
+  }
 }
