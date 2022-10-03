@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {PartialPost, Post} from "./post.module";
+import PostsService from "./posts.service";
 
 @Component({
   selector: 'app-root',
@@ -13,32 +14,21 @@ export class AppComponent implements OnInit {
   loadedPosts: Post[] = [];
   isLoading = false;
 
-  private url = 'https://angular-practise-caf1f-default-rtdb.firebaseio.com/posts.json'
 
-  constructor(private http: HttpClient) {
+  constructor(private postsService: PostsService) {
   }
 
   ngOnInit() {
+    this.onFetchPosts()
   }
 
   onCreatePost(postData: { title: string; content: string }) {
-    // Send Http request
-    this.http.post<{name : string}>(this.url, postData)
-      .subscribe(res => console.log(res))
+    this.postsService.createPost(postData.title, postData.content)
   }
 
   onFetchPosts() {
     this.isLoading = true;
-    this.http.get<{[k: string] : PartialPost}>(this.url)
-      .pipe(map(data => {
-        const posts: Post[] = [];
-        for (const key in data) {
-          if (data.hasOwnProperty(key)) {
-            posts.push({...data[key], id: key})
-          }
-        }
-        return posts;
-      }))
+      this.postsService.fetchPosts()
       .subscribe((posts: Post[]) => {
         this.isLoading = false;
         this.loadedPosts = posts
