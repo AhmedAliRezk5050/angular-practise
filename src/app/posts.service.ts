@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpEventType, HttpHeaders, HttpParams} from "@angular/common/http";
 import {PartialPost, Post} from "./post.module";
-import {map} from "rxjs/operators";
+import {map, tap} from "rxjs/operators";
 import {Subject} from "rxjs";
 
 @Injectable({
@@ -17,7 +17,10 @@ export default class PostsService {
   }
 
   createPost(title: string, content: string) {
-    this.http.post<{name : string}>(this.url, {title, content})
+    this.http.post<{ name: string }>(this.url, {title, content},
+      {
+        observe: 'response'
+      })
       .subscribe({
         next: res => {
           this.errorObs.next(null);
@@ -34,7 +37,7 @@ export default class PostsService {
     return this.http.get<{ [k: string]: PartialPost }>(this.url, {
       headers: new HttpHeaders({'custom-header': 'hello'}),
       // params: new HttpParams().set('print', 'pretty')
-      params: params
+      params: params,
     })
       .pipe(map(data => {
         const posts: Post[] = [];
@@ -48,6 +51,17 @@ export default class PostsService {
   }
 
   deletePosts() {
-    return this.http.delete(this.url)
+    return this.http.delete(this.url, {
+      observe: 'events'
+    })
+      .pipe(tap(event => {
+        if(event.type === HttpEventType.Sent) {
+          console.log('sent')
+        }
+
+        if (event.type === HttpEventType.Response) {
+          console.log(event.body)
+        }
+      }))
   }
 }
