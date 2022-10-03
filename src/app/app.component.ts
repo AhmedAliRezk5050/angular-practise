@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+import {PartialPost, Post} from "./post.module";
 
 @Component({
   selector: 'app-root',
@@ -21,13 +22,13 @@ export class AppComponent implements OnInit {
 
   onCreatePost(postData: { title: string; content: string }) {
     // Send Http request
-    this.http.post(this.url, postData)
+    this.http.post<{name : string}>(this.url, postData)
       .subscribe(res => console.log(res))
   }
 
   onFetchPosts() {
-    this.http.get(this.url)
-      .pipe(map((data: { [s: string]: any }) => {
+    this.http.get<{[k: string] : PartialPost}>(this.url)
+      .pipe(map(data => {
         const posts: Post[] = [];
         for (const key in data) {
           if (data.hasOwnProperty(key)) {
@@ -44,8 +45,5 @@ export class AppComponent implements OnInit {
   }
 }
 
-interface Post {
-  id: string;
-  title: string;
-  content: string;
-}
+
+
