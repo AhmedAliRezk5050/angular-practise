@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {PartialPost, Post} from "./post.module";
 import {map} from "rxjs/operators";
 import {Subject} from "rxjs";
@@ -28,7 +28,9 @@ export default class PostsService {
   }
 
   fetchPosts() {
-    return this.http.get<{ [k: string]: PartialPost }>(this.url)
+    return this.http.get<{ [k: string]: PartialPost }>(this.url, {
+      headers: new HttpHeaders({'custom-header': 'hello'})
+    })
       .pipe(map(data => {
         const posts: Post[] = [];
         for (const key in data) {
