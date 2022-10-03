@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
   loadedPosts: Post[] = [];
   isFetching = false;
   isLoading = false;
-
+  fetchingError: string | null = null;
 
 
   constructor(private postsService: PostsService) {
@@ -31,9 +31,15 @@ export class AppComponent implements OnInit {
   onFetchPosts() {
     this.isFetching = true;
       this.postsService.fetchPosts()
-      .subscribe((posts: Post[]) => {
-        this.isFetching = false;
-        this.loadedPosts = posts
+      .subscribe({
+        next: (posts: Post[]) => {
+          this.isFetching = false;
+          this.loadedPosts = posts
+          this.fetchingError = null;
+        },
+        error: error => {
+          this.fetchingError = error.message
+        }
       })
   }
 
