@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {PartialPost, Post} from "./post.module";
@@ -11,7 +11,7 @@ import {Subscription} from "rxjs";
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   loadedPosts: Post[] = [];
   isFetching = false;
   isLoading = false;
@@ -53,6 +53,10 @@ export class AppComponent implements OnInit {
         this.isLoading = false
         this.loadedPosts = [];
       })
+  }
+
+  ngOnDestroy(): void {
+    this.errorObsSubscription?.unsubscribe();
   }
 }
 
