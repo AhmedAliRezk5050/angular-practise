@@ -11,6 +11,7 @@ import {PartialPost, Post} from "./post.module";
 
 export class AppComponent implements OnInit {
   loadedPosts: Post[] = [];
+  isLoading = false;
 
   private url = 'https://angular-practise-caf1f-default-rtdb.firebaseio.com/posts.json'
 
@@ -27,6 +28,7 @@ export class AppComponent implements OnInit {
   }
 
   onFetchPosts() {
+    this.isLoading = true;
     this.http.get<{[k: string] : PartialPost}>(this.url)
       .pipe(map(data => {
         const posts: Post[] = [];
@@ -37,7 +39,10 @@ export class AppComponent implements OnInit {
         }
         return posts;
       }))
-      .subscribe((posts: Post[]) => this.loadedPosts = posts)
+      .subscribe((posts: Post[]) => {
+        this.isLoading = false;
+        this.loadedPosts = posts
+      })
   }
 
   onClearPosts() {
