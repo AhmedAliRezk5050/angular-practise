@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
   }
 
   onFetchPosts() {
-    // Send Http request
+    this.http.get(this.url).subscribe(res => console.log(res))
   }
 
   onClearPosts() {
