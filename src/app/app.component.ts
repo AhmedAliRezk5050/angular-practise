@@ -49,7 +49,8 @@ export class AppComponent implements OnInit, OnDestroy {
   onClearPosts() {
     this.isLoading = true;
     this.postsService.deletePosts()
-      .subscribe(() => {
+      .subscribe(res => {
+        console.log(res)
         this.isLoading = false
         this.loadedPosts = [];
       })
