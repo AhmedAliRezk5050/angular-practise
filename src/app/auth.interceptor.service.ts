@@ -5,8 +5,10 @@ export default class AuthInterceptorService implements HttpInterceptor {
 
     // limit to a specific url
     // if(req.url == 'example'){}
-
+    const modifiedRequest = req.clone({
+      headers: req.headers.append('Auth', 'abc')
+    });
     console.log("Request.....")
-    return next.handle(req);
+    return next.handle(modifiedRequest);
   }
 }
