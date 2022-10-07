@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpEventType, HttpHeaders, HttpParams} from "@angular/common/http";
-import {PartialPost, Post} from "./post.module";
+import {PartialPost, Post} from "./post.model";
 import {map, tap} from "rxjs/operators";
 import {Subject} from "rxjs";
 
@@ -11,7 +11,7 @@ export default class PostsService {
 
   errorObs = new Subject<string | null>()
 
-  private url = 'https://angular-practise-caf1f-default-rtdb.firebaseio.com/posts.json'
+  private url = 'https://angular-practise2-de213-default-rtdb.firebaseiod.com/posts.json'
 
   constructor(private http: HttpClient) {
   }

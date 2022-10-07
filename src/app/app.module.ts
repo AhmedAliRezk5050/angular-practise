@@ -6,9 +6,10 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AppComponent} from './app.component';
 import AuthInterceptorService from "./auth.interceptor.service";
 import LoggingInterceptorService from "./logging.interceptor.service";
+import {AlertComponent} from "./shared/alert/alert.component";
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, AlertComponent],
   imports: [BrowserModule, FormsModule, HttpClientModule],
   providers: [
     {
@@ -26,3 +27,4 @@ import LoggingInterceptorService from "./logging.interceptor.service";
 })
 export class AppModule {
 }
+

@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
-import {PartialPost, Post} from "./post.module";
+import {PartialPost, Post} from "./post.model";
 import PostsService from "./posts.service";
 import {Subscription} from "rxjs";
 
@@ -58,6 +58,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.errorObsSubscription?.unsubscribe();
+  }
+
+  onHandleError() {
+    this.fetchingError = null;
   }
 }
 
